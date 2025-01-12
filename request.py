@@ -39,7 +39,7 @@ def create_cars(num_cars=1):
         else:
             print(f"Failed to create car: {response.status_code} - {response.text}")
 
-def create_modifications(num_modifications=1):
+def create_modifications(num_modifications=1, part_nums=1, car_nums=1):
     for _ in range(num_modifications):
         data = {
             "modification_type": random.choice(["Upgrade", "Repair"]),
@@ -47,8 +47,8 @@ def create_modifications(num_modifications=1):
             "date": str(faker.date_this_century()),
             "max_speed_change": random.randint(0, 50),
             "power_change": random.randint(0, 30),
-            "part_id": _,
-            "car_id": _
+            "part_id": random.randint(1, part_nums),
+            "car_id": random.randint(1, car_nums)
         }
         print(data)
         response = requests.post(f"{BASE_URL}/modifications/", params=data)
@@ -62,4 +62,4 @@ if __name__ == "__main__":
     num_of_cars = 2
     create_parts(num_of_parts)
     create_cars(num_of_cars)
-    create_modifications(min(num_of_cars, num_of_parts))
+    create_modifications(min(num_of_cars, num_of_parts), num_of_parts, num_of_cars)
