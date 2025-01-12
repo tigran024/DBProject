@@ -4,7 +4,6 @@ from sqlalchemy.orm import Session
 from database import SessionLocal, engine
 from models import Base, Part, Car, Modification
 
-# Create database tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -16,7 +15,6 @@ def get_db():
     finally:
         db.close()
 
-# CRUD Endpoints for Parts
 @app.post("/parts/")
 def create_part(
     name: str,
@@ -49,7 +47,6 @@ def get_parts(sort_by: str = Query("part_id"), order: str = Query("asc"), db: Se
     sort_order = asc if order == "asc" else desc
     return db.query(Part).order_by(sort_order(sort_columns[sort_by])).all()
 
-# CRUD Endpoints for Cars
 @app.post("/cars/")
 def create_car(
     appearance: str,
@@ -91,7 +88,6 @@ def get_cars(sort_by: str = Query("car_id"), order: str = Query("asc"), db: Sess
     sort_order = asc if order == "asc" else desc
     return db.query(Car).order_by(sort_order(sort_columns[sort_by])).all()
 
-# CRUD Endpoints for Modifications
 @app.post("/modifications/")
 def create_modification(
     modification_type: str,
@@ -134,9 +130,8 @@ def get_modifications(sort_by: str = Query("modification_id"), order: str = Quer
         raise HTTPException(status_code=400, detail=f"Invalid sort_by value: {sort_by}")
 
     sort_order = asc if order == "asc" else desc
-    return db.query(Modification).order_by(sort_order(sort_columns[sort_by])).all()
-
-# Advanced Queries
+    return db.query(Modification).order_by(sort_order(sort_columns[sort_by])).all
+    
 @app.get("/modifications/filter/")
 def filter_modifications(modification_type: str = None, mechanic: str = None, db: Session = Depends(get_db)):
     query = db.query(Modification)
