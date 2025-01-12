@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
 from models import Part, Car, Modification
 
-# Part CRUD
 def create_part(db: Session, name: str, price: int, car_section: str, company: str, warranty: str):
     part = Part(name=name, price=price, car_section=car_section, company=company, warranty=warranty)
     db.add(part)
@@ -12,7 +11,6 @@ def create_part(db: Session, name: str, price: int, car_section: str, company: s
 def get_parts(db: Session, skip: int = 0, limit: int = 10):
     return db.query(Part).offset(skip).limit(limit).all()
 
-# Car CRUD
 def create_car(db: Session, appearance: str, power: int, year_of_manufacture: int, brand: str, owner: str, max_speed: int):
     car = Car(
         appearance=appearance,
@@ -30,7 +28,6 @@ def create_car(db: Session, appearance: str, power: int, year_of_manufacture: in
 def get_cars(db: Session, skip: int = 0, limit: int = 10):
     return db.query(Car).offset(skip).limit(limit).all()
 
-# Modification CRUD
 def create_modification(
     db: Session,
     modification_type: str,
@@ -59,7 +56,6 @@ def create_modification(
 def get_modifications(db: Session, skip: int = 0, limit: int = 10):
     return db.query(Modification).offset(skip).limit(limit).all()
 
-# Advanced Queries
 def filter_modifications(db: Session, modification_type: str = None, mechanic: str = None):
     query = db.query(Modification)
     if modification_type:
